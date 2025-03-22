@@ -1,15 +1,19 @@
 <template>
   <div class="container">
-    <div v-if="!imageCaptured">
+    <div v-if="!imageCaptured" class="camera-container">
       <video ref="video" autoplay playsinline class="camera-view"></video>
-      <button @click="captureImage">Tomar Foto</button>
-      <button @click="switchCamera">Cambiar Cámara</button>
+      <div class="button-group">
+        <button @click="captureImage">📸 Tomar Foto</button>
+        <button @click="switchCamera">🔄 Cambiar Cámara</button>
+      </div>
     </div>
 
-    <div v-else>
+    <div v-else class="preview-container">
       <img :src="capturedImage" class="preview" />
-      <button @click="uploadImage">Subir Imagen</button>
-      <button @click="resetCamera">Tomar otra</button>
+      <div class="button-group">
+        <button @click="uploadImage">⬆️ Subir Imagen</button>
+        <button @click="resetCamera">🔄 Tomar otra</button>
+      </div>
     </div>
   </div>
 </template>
@@ -19,7 +23,7 @@ export default {
   props: {
     imageId: {
       type: String,
-      required: true, // Asegurar que venga como obligatorio
+      required: true,
     },
   },
   data() {
@@ -27,7 +31,7 @@ export default {
       videoStream: null,
       capturedImage: null,
       imageCaptured: false,
-      useFrontCamera: false, // Estado para alternar entre cámaras
+      useFrontCamera: false,
     };
   },
   mounted() {
@@ -45,7 +49,11 @@ export default {
         }
 
         this.videoStream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: this.useFrontCamera ? "user" : "environment" }, // Frontal o trasera
+          video: {
+            facingMode: this.useFrontCamera ? "user" : "environment",
+            width: { ideal: 1280 }, // Mejor resolución para documentos
+            height: { ideal: 720 },
+          },
         });
 
         this.$refs.video.srcObject = this.videoStream;
@@ -112,17 +120,57 @@ export default {
   text-align: center;
   padding: 20px;
 }
+.camera-container,
+.preview-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .camera-view {
   width: 100%;
   max-width: 400px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 .preview {
   width: 100%;
   max-width: 400px;
+  border-radius: 10px;
+  filter: contrast(1.3) brightness(1.1); /* Mejora el documento */
+}
+.button-group {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
 }
 button {
-  margin: 10px;
-  padding: 10px;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  background: #007bff;
+  color: white;
+  border-radius: 8px;
   cursor: pointer;
+  transition: 0.3s;
+}
+button:hover {
+  background: #0056b3;
+}
+/* Diseño responsivo */
+@media (max-width: 600px) {
+  .camera-view,
+  .preview {
+    width: 100%;
+  }
+
+  button {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .button-group {
+    flex-direction: column;
+    gap: 5px;
+  }
 }
 </style>
