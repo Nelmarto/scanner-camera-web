@@ -4,6 +4,8 @@ module.exports = defineConfig({
   transpileDependencies: true,
   devServer: {
     port: 8081,
-    allowedHosts: "all", // Permite cualquier host externo (incluye ngrok)
+    allowedHosts: "all",
   },
+  publicPath:
+    process.env.NODE_ENV === "production" ? "/scanner-camera-web/" : "/",
 });
