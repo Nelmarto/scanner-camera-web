@@ -1,7 +1,5 @@
 <template>
   <div class="container">
-    <h2>Capturar Imagen</h2>
-
     <div v-if="!imageCaptured">
       <video ref="video" autoplay playsinline class="camera-view"></video>
       <button @click="captureImage">Tomar Foto</button>

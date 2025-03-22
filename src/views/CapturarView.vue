@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <h2>Capturar Imagen</h2>
     <CameraCapture v-if="imageId" :imageId="imageId" />
     <p v-else class="error">❌ No se encontró un ID en la URL.</p>
   </div>
