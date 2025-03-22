@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <router-view></router-view>
-    <img src="/logo.png" alt="Logo" class="logo" />
+    <img :src="process.env.BASE_URL + 'logo.png'" alt="Logo" class="logo" />
   </div>
 </template>
 <style>
