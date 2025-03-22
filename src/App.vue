@@ -1,9 +1,10 @@
 <template>
   <div class="app">
-    <router-view></router-view>
-    <img :src="import.meta.env.BASE_URL + 'logo.png'" alt="Logo" class="logo" />
+    <img src="/logo.png" alt="Logo" class="logo" />
+    <router-view />
   </div>
 </template>
+
 <style>
 .logo {
   position: fixed;
