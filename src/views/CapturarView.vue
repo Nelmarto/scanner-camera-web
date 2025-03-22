@@ -19,6 +19,10 @@ export default {
   mounted() {
     this.imageId = this.$route.query.id;
     console.log("🌍 CapturarView - ID desde la URL:", this.imageId);
+
+    if (!this.imageId) {
+      console.error("❌ ERROR: No se encontró un ID en la URL.");
+    }
   },
 };
 </script>
