@@ -95,11 +95,14 @@ export default {
         });
         console.log("Enviando:", payload); // Ver qué se está enviando
 
-        const response = await fetch("http://localhost:8082/api/upload", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: payload,
-        });
+        const response = await fetch(
+          "https://scanner-camera-api-production.up.railway.app/api/upload",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: payload,
+          }
+        );
 
         if (!response.ok) {
           throw new Error(`Error en la respuesta: ${response.status}`);
