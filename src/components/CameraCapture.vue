@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import Swal from "sweetalert2";
+
 export default {
   props: {
     imageId: {
@@ -85,7 +87,7 @@ export default {
     async uploadImage() {
       try {
         if (!this.imageId) {
-          console.error("No se encontró un ID en la URL CameraCapture.vue");
+          Swal.fire("Error", "No se encontró un ID válido en la URL", "error");
           return;
         }
 
@@ -93,7 +95,15 @@ export default {
           id: this.imageId,
           image: this.capturedImage.split(",")[1],
         });
-        console.log("Enviando:", payload); // Ver qué se está enviando
+
+        Swal.fire({
+          title: "Subiendo...",
+          text: "Por favor espera mientras se envía la imagen.",
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
 
         const response = await fetch(
           "https://scanner-camera-api-production.up.railway.app/api/upload",
@@ -110,8 +120,22 @@ export default {
 
         const data = await response.json();
         console.log("Respuesta de la API:", data);
+
+        Swal.fire(
+          "¡Éxito!",
+          "La imagen se envió correctamente.",
+          "success"
+        ).then(() => {
+          // Si quieres limpiar la foto y volver a la cámara
+          this.resetCamera();
+        });
       } catch (error) {
         console.error("Error al enviar la imagen", error);
+        Swal.fire(
+          "Error",
+          "No se pudo enviar la imagen. Revisa tu conexión o intenta de nuevo.",
+          "error"
+        );
       }
     },
   },
