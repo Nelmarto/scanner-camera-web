@@ -1,10 +1,6 @@
 <template>
   <div class="app">
-    <img
-      src="https://nelmarto.github.io/scanner-camera-web/logo.png"
-      alt="Logo"
-      class="logo"
-    />
+    <img src="/scanner-camera-web/logo.png" alt="Logo" class="logo" />
     <router-view />
   </div>
 </template>
